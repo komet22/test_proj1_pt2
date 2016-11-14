@@ -21,6 +21,10 @@ import org.hibernate.cfg.Configuration;
 
 public class ManageEmployee {
    private static SessionFactory factory; 
+   
+   public ManageEmployee(SessionFactory f) {factory = f;}
+   public ManageEmployee() {}
+   
    public static void main(String[] args) {
       try{
          factory = new Configuration().configure().buildSessionFactory();
