@@ -10,8 +10,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -99,7 +101,7 @@ public class SetStructJUnitTest {
         String firstname = "Andrzej";
         String lastname = "Kowalski";
         int salary = 3000;
-        ArrayList cert = new ArrayList();
+        Set cert = new HashSet();
         cert.add(new Certificate("MCA"));
         cert.add(new Certificate("MBA"));
         cert.add(new Certificate("PMP"));
@@ -121,15 +123,15 @@ public class SetStructJUnitTest {
             }
             assertEquals(firstname, employee.getFirstName());
             assertEquals(lastname, employee.getLastName());
-            result = employee.getCertificates();
-            Iterator it = result.iterator();
+            Set certs = employee.getCertificates();
+            Iterator it = certs.iterator();
             for (int i = 0; i < 3; i++) {
                 if(it.hasNext()) c = (Certificate) it.next();
                 else {
                     fail("Wrong number of certificates saved: too few certificates.");
                     return;
                 }
-                assertEquals(((Certificate)cert.get(i)).getName(), c.getName());
+                assertTrue((cert.contains(c)));
             }
             if (it.hasNext()) {
                 fail("Wrong number of certificates saved: too many certificates.");
@@ -154,12 +156,12 @@ public class SetStructJUnitTest {
         PrintStream old = System.out;
         
         //Creating new employees
-        List c1 = new ArrayList();
+        Set c1 = new HashSet();
         c1.add(new Certificate("AXA"));
         c1.add(new Certificate("XAXA"));
         Employee e1 = new Employee("Paweł", "Jaruga", 666000000);
         e1.setCertificates(c1);
-        List c2 = new ArrayList();
+        Set c2 = new HashSet();
         c2.add(new Certificate("NOOB"));
         Employee e2 = new Employee("Maciej", "Stepnowski", 1850);
         e2.setCertificates(c2);
@@ -216,31 +218,6 @@ public class SetStructJUnitTest {
         String expected = exp.toString();
         
         assertEquals(result, expected);
-        
-        
-//        (~~~~~~~~~~~~~~~)           (~~~~~~~~~~~~~~~)
-//         \   \~~~~~~~/ /             \   \~~~~~~~/ /
-//           \  \    / /                 \  \    / /
-//             \  \/ /__===_____________==_\  \/ /
-//            __ --  __----__          __-----__  --__
-//         _-~     /'         ~\      /'         ~\    ~-_
-//       /~       |____________|    |_____________|       ~\
-//      |         |  O         |  /\| O           |         |
-//      |          \ _       ./ /    \.          /          |
-//      |             ~~~~~~ /        \~~~~~~~'           |
-//       \                  /____________\                 /
-//        ~--__         ___(              )___       ___--~
-//             ~~~~--~~~    \            /    ~~~--~~____------
-//     ------____/__   ~~     \        /    __---~~ ~\
-//              |   ~~~~~       \    /        __----~|~~~~~~
-//          -----\------------    \/      _________  /
-//                \                |                /
-//                  \   _______   / \     ~~----__/____
-//    ____-----~~~~~~~\~        /     \         /      ~~~~~---
-//                     ~-____-~        ~-____-~
-//                         \              /
-//                           \          /
-//                            ~-______-~
     }
     
     @Test
@@ -248,7 +225,7 @@ public class SetStructJUnitTest {
         System.out.println("Structure Update test: updateEmployee");
         
         Employee expected = new Employee("Andrzej", "Kowalski", 9001);
-        List a = new ArrayList();
+        Set a = new HashSet();
         a.add(new Certificate("MCA"));
         a.add(new Certificate("MBA"));
         expected.setCertificates(a);

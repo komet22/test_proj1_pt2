@@ -5,9 +5,10 @@
  */
 package main.java.dbh;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -96,12 +97,12 @@ public class CRUDJUnitTest {
         String[] lname = {"Jaruga", "Stepnowski"};
         int[] salary = {666000, 1850};
         
-        List c1 = new ArrayList();
+        Set c1 = new HashSet();
         c1.add(new Certificate("AXA"));
         c1.add(new Certificate("XAXA"));
-        List c2 = new ArrayList();
+        Set c2 = new HashSet();
         c2.add(new Certificate("NOOB"));
-        List[] cert = {c1, c2};
+        Set[] cert = {c1, c2};
         Employee[] employee = new Employee[fname.length];
         int id[] = new int[2];
         
@@ -121,12 +122,11 @@ public class CRUDJUnitTest {
                 id[i] = (int) session.save(em);
                 i++;
             }
-            i = 0;
             Employee e;
             try {
-                for (int j = 0; j<2 ;j++){
+                for (i = 0; i<2 ;i++){
                     e =(Employee) session.createQuery("FROM Employee WHERE id="
-                            + j + "").uniqueResult();
+                            + id[i] + "").uniqueResult();
                 }
             } catch (HibernateException ex){
                 fail("Failed to read saved objects. Aborting test.");
@@ -141,6 +141,7 @@ public class CRUDJUnitTest {
             else
             {
                 Iterator it = result.iterator();
+                i = 0;
                 while(it.hasNext())
                 {
                         e = (Employee) it.next();
@@ -204,12 +205,12 @@ public class CRUDJUnitTest {
         String[] lname = {"Kowalski", "Szechter"};
         int[] salary = {5000, 1000};
         
-        List c1 = new ArrayList();
+        Set c1 = new HashSet();
         c1.add(new Certificate("WPD"));
         c1.add(new Certificate("RN"));
-        List c2 = new ArrayList();
+        Set c2 = new HashSet();
         c2.add(new Certificate("GW"));
-        List[] cert = {c1, c2};
+        Set[] cert = {c1, c2};
         Employee[] employee = new Employee[fname.length];
         int id[] = new int[2];
         
@@ -263,12 +264,12 @@ public class CRUDJUnitTest {
         int[] salary = {7000, 15000};
         int id[] = new int[2];
         
-        List c1 = new ArrayList();
+        Set c1 = new HashSet();
         c1.add(new Certificate("WPD"));
         c1.add(new Certificate("RN"));
-        List c2 = new ArrayList();
+        Set c2 = new HashSet();
         c2.add(new Certificate("GW"));
-        List[] cert = {c1, c2};
+        Set[] cert = {c1, c2};
         Employee[] employee = new Employee[fname.length];
         
         for(int i = 0 ; i < fname.length ; i++)
