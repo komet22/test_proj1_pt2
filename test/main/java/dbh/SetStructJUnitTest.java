@@ -115,7 +115,6 @@ public class SetStructJUnitTest {
             tx = session.beginTransaction();
             List result = session.createQuery("FROM Employee e WHERE e.id=" + id + "").list();
             Employee employee;
-            Certificate c;
             if(result.iterator().hasNext()) employee = (Employee) result.iterator().next();
             else {
                 fail("No employee saved or wrong employee ID saved into database.");
@@ -123,20 +122,7 @@ public class SetStructJUnitTest {
             }
             assertEquals(firstname, employee.getFirstName());
             assertEquals(lastname, employee.getLastName());
-            Set certs = employee.getCertificates();
-            Iterator it = certs.iterator();
-            for (int i = 0; i < 3; i++) {
-                if(it.hasNext()) c = (Certificate) it.next();
-                else {
-                    fail("Wrong number of certificates saved: too few certificates.");
-                    return;
-                }
-                assertTrue((cert.contains(c)));
-            }
-            if (it.hasNext()) {
-                fail("Wrong number of certificates saved: too many certificates.");
-                return;
-            }
+            assertEquals(cert, employee.getCertificates());
             tx.commit();
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -203,8 +189,8 @@ public class SetStructJUnitTest {
         result = res.toString();
         
         //Building expected string
-        StringBuilder exp = new StringBuilder();
-        exp.append("First Name: Paweł  Last Name: Jaruga  Salary: 666000000").
+        StringBuilder exp1 = new StringBuilder();
+        exp1.append("First Name: Paweł  Last Name: Jaruga  Salary: 666000000").
             append(System.getProperty("line.separator")).
             append("Certificate: AXA").
             append(System.getProperty("line.separator")).
@@ -214,10 +200,21 @@ public class SetStructJUnitTest {
             append(System.getProperty("line.separator")).
             append("Certificate: NOOB").
             append(System.getProperty("line.separator"));
-                
-        String expected = exp.toString();
         
-        assertEquals(result, expected);
+        StringBuilder exp2 = new StringBuilder();
+        exp2.append("First Name: Paweł  Last Name: Jaruga  Salary: 666000000").
+            append(System.getProperty("line.separator")).
+            append("Certificate: XAXA").
+            append(System.getProperty("line.separator")).
+            append("Certificate: AXA").
+            append(System.getProperty("line.separator")).
+            append("First Name: Maciej  Last Name: Stepnowski  Salary: 1850").
+            append(System.getProperty("line.separator")).
+            append("Certificate: NOOB").
+            append(System.getProperty("line.separator"));
+        
+        if (!exp1.toString().equals(result) && !exp2.toString().equals(result))
+            fail("Read failed.");
     }
     
     @Test
@@ -274,11 +271,11 @@ public class SetStructJUnitTest {
         System.out.println("Structure Delete test: deleteEmployee");
         
         //Create 2 employees
-        List c1 = new ArrayList();
+        Set c1 = new HashSet();
         c1.add(new Certificate("WR"));
         Employee e1 = new Employee("Jan", "Kowalski", 3200);
         e1.setCertificates(c1);
-        List c2 = new ArrayList();
+        Set c2 = new HashSet();
         c2.add(new Certificate("EDR"));
         c2.add(new Certificate("TWR"));
         Employee e2 = new Employee("Mariusz", "Nowak", 4850);
@@ -328,10 +325,8 @@ public class SetStructJUnitTest {
             assertEquals( "Nowak", e.getLastName() );
             assertEquals( 4850, e.getSalary() );
             
-            List lc = e.getCertificates();
-            Iterator it = lc.iterator();
-            assertEquals( "EDR", ((Certificate) it.next()).getName() );
-            assertEquals( "TWR", ((Certificate) it.next()).getName() );
+            Set lc = e.getCertificates();
+            assertEquals(c2, lc);
             
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();

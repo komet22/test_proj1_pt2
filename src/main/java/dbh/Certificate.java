@@ -13,7 +13,7 @@ package main.java.dbh;
 
 public class Certificate {
    private int id;
-   private String name; 
+   private String name;
 
    public Certificate() {}
    public Certificate(String name) {
@@ -31,20 +31,23 @@ public class Certificate {
    public void setName( String name ) {
       this.name = name;
    }
+   
+   @Override
    public boolean equals(Object obj) {
-      if (obj == null) return false;
-      if (!this.getClass().equals(obj.getClass())) return false;
-
-      Certificate obj2 = (Certificate)obj;
-      if((this.id == obj2.getId()) && (this.name.equals(obj2.getName())))
-      {
-         return true;
+      if (obj != null && obj instanceof Certificate) {
+        Certificate obj2 = (Certificate)obj;
+        if((id == obj2.getId()) && (name.equals(obj2.getName())))
+        {
+            return true;
+        }
       }
       return false;
    }
+   
+   @Override
    public int hashCode() {
       int tmp = 0;
-      tmp = ( id + name ).hashCode();
+      tmp = ((Integer )id).hashCode() + name.hashCode();
       return tmp;
    }
 }
