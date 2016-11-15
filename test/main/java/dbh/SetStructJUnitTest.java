@@ -146,10 +146,10 @@ public class SetStructJUnitTest {
         Set c1 = new HashSet();
         c1.add(new Certificate("AXA"));
         c1.add(new Certificate("XAXA"));
-        Employee e1 = new Employee("Paweł", "Jaruga", 666000000);
+        Employee e1 = new Employee("Paweł", "Jaruga", 20000);
         e1.setCertificates(c1);
         Set c2 = new HashSet();
-        c2.add(new Certificate("NOOB"));
+        c2.add(new Certificate("FGT"));
         Employee e2 = new Employee("Maciej", "Stepnowski", 1850);
         e2.setCertificates(c2);
         
@@ -191,7 +191,7 @@ public class SetStructJUnitTest {
         
         //Building expected string
         StringBuilder exp1 = new StringBuilder();
-        exp1.append("First Name: Paweł  Last Name: Jaruga  Salary: 666000000").
+        exp1.append("First Name: Paweł  Last Name: Jaruga  Salary: 20000").
             append(System.getProperty("line.separator")).
             append("Certificate: AXA").
             append(System.getProperty("line.separator")).
@@ -199,7 +199,7 @@ public class SetStructJUnitTest {
             append(System.getProperty("line.separator")).
             append("First Name: Maciej  Last Name: Stepnowski  Salary: 1850").
             append(System.getProperty("line.separator")).
-            append("Certificate: NOOB").
+            append("Certificate: FGT").
             append(System.getProperty("line.separator"));
         
         StringBuilder exp2 = new StringBuilder();
@@ -211,7 +211,7 @@ public class SetStructJUnitTest {
             append(System.getProperty("line.separator")).
             append("First Name: Maciej  Last Name: Stepnowski  Salary: 1850").
             append(System.getProperty("line.separator")).
-            append("Certificate: NOOB").
+            append("Certificate: FGT").
             append(System.getProperty("line.separator"));
         
         if (!exp1.toString().equals(result) && !exp2.toString().equals(result))
