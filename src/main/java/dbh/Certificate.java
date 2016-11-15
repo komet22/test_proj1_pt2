@@ -46,8 +46,6 @@ public class Certificate {
    
    @Override
    public int hashCode() {
-      int tmp = 0;
-      tmp = ((Integer )id).hashCode() + name.hashCode();
-      return tmp;
+      return name.hashCode();
    }
 }

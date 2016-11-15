@@ -122,7 +122,7 @@ public class SetStructJUnitTest {
             }
             assertEquals(firstname, employee.getFirstName());
             assertEquals(lastname, employee.getLastName());
-            assertEquals(cert, employee.getCertificates());
+            assertTrue(cert.containsAll(employee.getCertificates()));
             tx.commit();
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -326,7 +326,7 @@ public class SetStructJUnitTest {
             assertEquals( 4850, e.getSalary() );
             
             Set lc = e.getCertificates();
-            assertEquals(c2, lc);
+            assertTrue(c2.containsAll(lc));
             
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
